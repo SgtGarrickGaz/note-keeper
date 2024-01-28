@@ -1,6 +1,8 @@
 import { useState } from 'react'
-import './App.css'
 import SideNote from './components/SideNote';
+import axios from 'axios';
+import SideNoteBar from './components/SideNoteBar';
+import MainArea from './components/MainArea';
 interface ContentInterface {
     title: string;
     content: string;
@@ -26,7 +28,7 @@ function App() {
               </h1>
               <div className="flex flex-grow">
                   <div className="flex-grow w-[15px] bg-gray-600 flex-col overflow-y-scroll no-scrollbar">
-                      <SideNote
+                      {/* <SideNote
                           title="abcd"
                           content="efgh"
                           change={() =>
@@ -42,16 +44,10 @@ function App() {
                                   content: "preet",
                               })
                           }
-                      />
+                      /> */}
+                      <SideNoteBar/>
                   </div>
-                  <div className="w-10/12 pl-6 pt-2">
-                      <div className="text-4xl pb-5 text-stone-200">
-                          {mainContent.title}
-                      </div>
-                      <div className="text-2xl text-stone-300">
-                          {mainContent.content}
-                      </div>
-                  </div>
+                  <MainArea title='Abhay' content='Preet'/>
               </div>
           </div>
       );
