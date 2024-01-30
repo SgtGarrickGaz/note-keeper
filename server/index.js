@@ -33,9 +33,9 @@ app.get("/api/notes", (req, res)=> {
 app.post("/api/save", async (req,res)=>{
     try {
         const doc = req.body;
-        console.log(doc);
+        // console.log(doc);
         const result = await notesDB.insert(doc);
-        console.log(result)
+        res.json(result);
     } catch (error) {
         console.log(error);
     }

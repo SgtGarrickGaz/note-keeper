@@ -10,7 +10,7 @@ const SideNoteBar = ({changeContent, saveState}) => {
         const response = await fetch("http://localhost:3001/api/notes");
         const results = await response.json();
         setData(results);
-        console.log(data)
+        // console.log(data)
       } catch (error) {
         console.log(`An error occured: ${error}`);
       }

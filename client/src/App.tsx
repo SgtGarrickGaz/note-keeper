@@ -10,12 +10,14 @@ interface ContentInterface {
 }
 
 function App() {
-      const [mainContent, setMainContent] = useState<ContentInterface>({
-          title: "",
-          content: "",
-      });
-
-      const [saveState, setSaveState] = useState(false);
+    const [mainContent, setMainContent] = useState<ContentInterface>({
+        title: "",
+        content: "",
+    });
+    
+    const [saveState, setSaveState] = useState(false);
+    const [newNoteTitle, setNewNoteTitle] = useState("");
+    const [newNoteContent, setNewNoteContent] = useState("");
 
       async function changeSaveState() {
 
@@ -34,23 +36,28 @@ function App() {
                 });
                 return;
             }
+
             else
             {
-                try {
-                    const response = await axios.post(
-                        "http://localhost:3001/api/save",
-                        doc
-                    );
-                    console.log(response);
-                } catch (error) {
-                    console.error(error);
-                }
+                const response = axios.post(
+                    "http://localhost:3001/api/save",
+                    doc
+                );
+                response.then(()=>{
+                    setSaveState(!saveState);
+                    setMainContent({
+                        title: "",
+                        content: "",
+                    });
+                    setNewNoteTitle('');
+                    setNewNoteContent('');
+
+
+                }) 
+                .catch (error=>{console.log(error)}) 
+                    // console.error(error);
                 console.log({ newNoteTitle, newNoteContent });
-                setSaveState(!saveState);
-                setMainContent({
-                    title: "",
-                    content: "",
-                });
+                return;
             }            
         }
 
@@ -68,8 +75,6 @@ function App() {
           });
       }
 
-        const [newNoteTitle, setNewNoteTitle] = useState("");
-        const [newNoteContent, setNewNoteContent] = useState("");
 
         const handleTitleChange = (event) => {
             setNewNoteTitle(event.target.value);
