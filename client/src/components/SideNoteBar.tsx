@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import SideNote from './SideNote';
 
-const SideNoteBar = () => {
+const SideNoteBar = ({changeContent, saveState}) => {
   const [data, setData] = useState(null);
 
   useEffect(()=>{
@@ -18,7 +18,10 @@ const SideNoteBar = () => {
 
     fetchNotes();
     
-  },[]);
+  },[saveState]);
+
+  if(saveState)
+  return null;
 
   if(!data)
   {
@@ -27,16 +30,24 @@ const SideNoteBar = () => {
 
   else{
     return (
-        <div>
+        <div className="flex w-2/12 bg-gray-600 flex-col overflow-y-scroll no-scrollbar">
             {data && (
                 <ul>
-                    {data.map((item: { doc: { title: string; content: string; }; }) => (
-                        <li><SideNote title={item.doc.title} content={item.doc.content}/></li>
-                    ))}
+                    {data.map(
+                        (item: { doc: { title: string; content: string } }) => (
+                            <li>
+                                <SideNote
+                                    title={item.doc.title}
+                                    content={item.doc.content}
+                                    changeContent={changeContent}
+                                />
+                            </li>
+                        )
+                    )}
                 </ul>
             )}
         </div>
-    )}
+    );}
 }
 
 export default SideNoteBar
