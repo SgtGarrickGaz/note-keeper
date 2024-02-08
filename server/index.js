@@ -6,7 +6,21 @@ const bp = require('body-parser');
 const PORT = process.env.PORT || 3001;
 
 const app = express();
-app.use(cors());
+
+const corsOpts = {
+  origin: '*',
+
+  methods: [
+    'GET',
+    'POST',
+  ],
+
+  allowedHeaders: [
+    'Content-Type',
+  ],
+};
+
+app.use(cors(corsOpts));
 app.use(bp.json());
 
 const notesDB = nano.use('notes');
@@ -38,6 +52,18 @@ app.post("/api/save", async (req,res)=>{
         res.json(result);
     } catch (error) {
         console.log(error);
+    }
+})
+
+app.post("/api/delete", async(req,res)=>{
+    try {
+        const id = req.body.id;
+        const rev = req.body.rev;
+        // console.log(req.body)
+        const result = notesDB.destroy(id, rev);
+        res.json(result);
+    } catch (error) {
+        console.log(`error`);
     }
 })
 
