@@ -27,6 +27,11 @@ type NoteDataStore = {
   setNoteData: (results:any[]) => void;
 }
 
+type DeleteNoteStore = {
+  deletedNoteId: string;
+  setDeletedNoteId: (id:string) => void;
+}
+
 
 
 
@@ -63,5 +68,12 @@ export const useNoteDataStore = create<NoteDataStore>((set)=>({
   noteData: [],
   setNoteData: (results: any[]) => {
     set(({noteData: results}))
+  }
+}))
+
+export const useDeleteNoteStore = create<DeleteNoteStore>((set)=>({
+  deletedNoteId: "",
+  setDeletedNoteId:(id: string) => {
+    set(({deletedNoteId: id}))
   }
 }))

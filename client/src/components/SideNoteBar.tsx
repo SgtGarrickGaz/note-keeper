@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import SideNote from './SideNote';
-import { useMainContentStore, useNoteDataStore, useSaveStateStore } from '../store';
+import { useDeleteNoteStore, useMainContentStore, useNoteDataStore, useSaveStateStore } from '../store';
 
 const SideNoteBar = () => {
   const saveState = useSaveStateStore((state) => state.saveState);
   const setMainContent = useMainContentStore((state) => state.setMainContent);
-  // const [data, setData] = useState(null);
+  const deletedNoteId = useDeleteNoteStore((state)=> state.deletedNoteId)
 
   const noteData = useNoteDataStore((state)=>state.noteData);
   const setNoteData = useNoteDataStore((state)=>state.setNoteData);
@@ -16,7 +16,6 @@ const SideNoteBar = () => {
         const response = await fetch("http://localhost:3001/api/notes");
         const results = await response.json();
         setNoteData(results);
-        // console.log(data)
       } catch (error) {
         console.log(`An error occured: ${error}`);
       }
@@ -24,7 +23,7 @@ const SideNoteBar = () => {
 
     fetchNotes();
     
-  },[saveState]);
+  },[saveState, deletedNoteId]);
 
   if(saveState)
   return null;
@@ -48,7 +47,6 @@ const SideNoteBar = () => {
                                 <SideNote
                                     title={item.doc.title}
                                     content={item.doc.content}
-                                    changeContent={()=>{setMainContent({title:item.doc.title ,content:item.doc.content})}}
                                     id={item.doc._id}
                                     rev={item.doc._rev}
                                 />
