@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react'
 import axios from 'axios';
 
 interface sideNoteProps {
@@ -29,14 +28,15 @@ const SideNote: React.FC<sideNoteProps> = ({title, content, changeContent, id, r
       };
       const res = await axios.post(`http://localhost:3001/api/delete/`,
       doc);
+      console.log(res);
       
       window.location.reload();
       
   };
 
   return (
-      <div className="flex justify-between text-slate-300 round p-3 border-2 border-gray-700 hover:bg-slate-500 transition-all duration-300">
-          <div onClick={handleClick} className='left-1'>
+      <div className="flex justify-between text-slate-300 round p-3 border-2 border-gray-700 hover:bg-slate-500 transition-all duration-300" onClick={handleClick}>
+          <div className='left-1 border-r-2 pr-10'>
               <h1 className="font-semibold">{title}</h1>
               <h3>{content}</h3>
           </div>

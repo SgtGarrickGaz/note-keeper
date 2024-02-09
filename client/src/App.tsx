@@ -1,23 +1,28 @@
-import { useState } from 'react'
 import SideNoteBar from './components/SideNoteBar';
 import MainArea from './components/MainArea';
 import AddOrSaveButton from './components/AddOrSaveButton';
 import axios from 'axios';
+import { useMainContentStore, useNewNoteStore, useSaveStateStore } from './store';
 
-interface ContentInterface {
-    title: string;
-    content: string;
-}
 
 function App() {
-    const [mainContent, setMainContent] = useState<ContentInterface>({
-        title: "",
-        content: "",
-    });
+    // const [mainContent, setMainContent] = useState<ContentInterface>({
+    //     title: "",
+    //     content: "",
+    // });
     
-    const [saveState, setSaveState] = useState(false);
-    const [newNoteTitle, setNewNoteTitle] = useState("");
-    const [newNoteContent, setNewNoteContent] = useState("");
+    // const [saveState, setSaveState] = useState(false);
+    // const [newNoteTitle, setNewNoteTitle] = useState("");
+    // const [newNoteContent, setNewNoteContent] = useState("");
+
+    const mainContent = useMainContentStore((state)=>state.mainContent);
+    const saveState = useSaveStateStore((state)=>state.saveState);
+    const newNoteTitle = useNewNoteStore((state)=>state.newNoteTitle);
+    const newNoteContent = useNewNoteStore((state) => state.newNoteContent);
+    const setSaveState = useSaveStateStore((state)=>state.setSaveState);
+    const setMainContent = useMainContentStore((state)=>state.setMainContent);
+    const setNewNoteTitle = useNewNoteStore((state)=>state.setNewNoteTitle);
+    const setNewNoteContent = useNewNoteStore((state)=>state.setNewNoteContent);
 
       async function changeSaveState() {
 
@@ -68,20 +73,14 @@ function App() {
         })
       }
 
-      function changeContent(item: ContentInterface) {
-          setMainContent({
-              title: item.title,
-              content: item.content,
-          });
-      }
 
 
-        const handleTitleChange = (event) => {
+        const handleTitleChange = (event: { target: { value: string; }; }) => {
             setNewNoteTitle(event.target.value);
         };
 
         // Event handler to update the content state
-        const handleContentChange = (event) => {
+        const handleContentChange = (event: { target: { value: string; }; }) => {
             setNewNoteContent(event.target.value);
         };
 
@@ -92,7 +91,7 @@ function App() {
               </h1>
               <div className="flex flex-grow">
                   {/* <div className=''> */}
-                      <SideNoteBar changeContent={changeContent} saveState={saveState} />
+                      <SideNoteBar />
                   {/* </div> */}
                   <div className="">
                       <MainArea
