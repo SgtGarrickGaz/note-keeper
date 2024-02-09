@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import SideNote from './SideNote';
 import { useMainContentStore, useNoteDataStore, useSaveStateStore } from '../store';
 
