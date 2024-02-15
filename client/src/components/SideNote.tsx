@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useDeleteNoteStore, useMainContentStore } from '../store';
+import { useDeleteNoteStore, useEditNoteStore, useMainContentStore, useSaveStateStore } from '../store';
 
 interface sideNoteProps {
     title: string;
@@ -11,27 +11,38 @@ interface sideNoteProps {
 const SideNote: React.FC<sideNoteProps> = ({title, content, id, rev}) => {
   const setMainContent = useMainContentStore((state)=>state.setMainContent);
   const setDeletedNoteId = useDeleteNoteStore((state)=> state.setDeletedNoteId);
+  const setIsEditNote = useEditNoteStore((state)=>state.setIsEditNote);
+  const setEditNoteTitle = useEditNoteStore((state)=>state.setEditNoteTitle);
+  const setEditNoteContent = useEditNoteStore((state)=>state.setEditNoteContent);
+  const setEditNoteId = useEditNoteStore((state)=>state.setEditNoteId);
+  const setEditNoteRev = useEditNoteStore((state) => state.setEditNoteRev);
+  const setSaveState = useSaveStateStore((state)=>state.setSaveState);
+  
+  
   const handleClick = () => {
     setMainContent({
       title: title,
       content: content
     })
   }
-
+  
   const handleEdit = () => {
-    console.log(`Edit button pressed`);
+    setSaveState(true);
+    setEditNoteId(id);
+    setEditNoteRev(rev);
+    setEditNoteTitle(title);
+    setEditNoteContent(content);
+    setIsEditNote(true);
   }
+  
   const handleDelete = async () => {
     const doc = {
-      id:id,
+      id : id,
       rev : rev
     };
-    const res = await axios.post(`http://localhost:3001/api/delete/`,
+    await axios.post(`http://localhost:3001/api/delete/`,
     doc);
-    
-    setDeletedNoteId(id);
-    setMainContent({title:"", content:""})
-      
+    setDeletedNoteId(id);      
   };
 
   return (

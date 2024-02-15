@@ -12,11 +12,12 @@ const corsOpts = {
 
   methods: [
     'GET',
+    'PUT',
     'POST',
   ],
 
   allowedHeaders: [
-    'Content-Type',
+    "Origin", "X-Requested-With", "Content-Type", "Accept"
   ],
 };
 
@@ -64,6 +65,24 @@ app.post("/api/delete", async(req,res)=>{
         res.json(result);
     } catch (error) {
         console.log(`error`);
+    }
+})
+
+app.post("/api/edit", async (req,res)=>{
+    try {
+        const id = req.body.id;
+        const rev = req.body.rev;
+        const title = req.body.title;
+        const content = req.body.content;
+        const doc = {
+            title: title,
+            content: content
+        }
+        response2 = await notesDB.insert({_id:id, _rev:rev, ...doc});
+        // console.log(JSON.parse(response2));
+        res.send('success');
+    } catch (error) {
+        res.send(error);
     }
 })
 

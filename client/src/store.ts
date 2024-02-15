@@ -32,11 +32,25 @@ type DeleteNoteStore = {
   setDeletedNoteId: (id:string) => void;
 }
 
+type EditNoteStore = {
+  isEditNote: boolean; //If true then editing page will open
+  editNoteTitle: string;
+  editNoteContent: string;
+  editNoteId: string;
+  editNoteRev: string;
+
+  setIsEditNote: (edit:boolean)=>void;
+  setEditNoteTitle: (title:string)=>void;
+  setEditNoteContent: (content:string)=> void;
+  setEditNoteId: (id:string)=>void;
+  setEditNoteRev: (rev:string)=>void;
+}
+
 
 
 
 export const useSaveStateStore = create<SaveStateStore>((set) => ({
-  saveState: false,
+  saveState: false, //if false, then sidebar will be shown
   setSaveState: (newSaveState) => {
     set(({saveState:newSaveState}));
   }
@@ -77,3 +91,32 @@ export const useDeleteNoteStore = create<DeleteNoteStore>((set)=>({
     set(({deletedNoteId: id}))
   }
 }))
+
+export const useEditNoteStore = create<EditNoteStore>((set)=>({
+  isEditNote: false,
+  editNoteTitle: "",
+  editNoteContent:"",
+  editNoteId:"",
+  editNoteRev:"",
+  setIsEditNote: (edit:boolean) => {
+    set({isEditNote: edit})
+  },
+  setEditNoteTitle: (title) => {
+    set({editNoteTitle: title})
+  },
+  setEditNoteContent: (content) => {
+    set({editNoteContent: content})
+  },
+  
+  setEditNoteId: (id) => {
+    set({editNoteId: id})
+  },
+
+  
+  setEditNoteRev: (rev) => {
+    set({ editNoteRev: rev })
+  }
+}))
+
+
+// If edit is true, change the save button functionality to override and then make api call.

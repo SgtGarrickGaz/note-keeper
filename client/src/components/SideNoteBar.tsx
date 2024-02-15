@@ -1,10 +1,9 @@
 import { useEffect } from 'react'
 import SideNote from './SideNote';
-import { useDeleteNoteStore, useMainContentStore, useNoteDataStore, useSaveStateStore } from '../store';
+import { useDeleteNoteStore, useNoteDataStore, useSaveStateStore } from '../store';
 
 const SideNoteBar = () => {
   const saveState = useSaveStateStore((state) => state.saveState);
-  const setMainContent = useMainContentStore((state) => state.setMainContent);
   const deletedNoteId = useDeleteNoteStore((state)=> state.deletedNoteId)
 
   const noteData = useNoteDataStore((state)=>state.noteData);
@@ -36,7 +35,6 @@ const SideNoteBar = () => {
   }
 
   else{
-    console.log(noteData)
     return (
         <div className="flex w-2/12 bg-gray-600 flex-col overflow-y-scroll no-scrollbar">
             {noteData && (
